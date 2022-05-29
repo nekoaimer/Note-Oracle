@@ -221,25 +221,90 @@ alter table dept3 add constraint dept3_fk foreign key(d_id) references dept1(id)
 ### 禁用/删除约束
 
 ```SQL
+# 禁用
+DISABLE|ENABLE CONSTRAINT constraint_name;
 
+alter table table_name disable constraint constraint_name
+
+# 删除
+DROP CONSTRAINT constraint_name;
+alter table table_name drop constraint constraint_name
+
+alter table dept2 drop constraint dept_fk;
 ```
-
-
 
 ## 唯一性约束
 
+### 创建唯一约束
+
 ```SQL
-# 创建表 方式一
+# 创建方式一
 CREATE TABLE DEPT(id number CONSTRAINT dept_uk UNIQUE, name VARCHAR2(20));
 
-# 创建表 方式二
+# 创建方式二
 CREATE TABLE DEPT(id NUMBER, name VARCHAR2(20), CONSTRAINT dept_uk UNIQUE(id));
+```
 
-# 唯一约束联合起名
+### 唯一约束联合起名
+
+```SQL
+# 创建表级唯一约束
 CREATE TABLE DEPT(id NUMBER, name VARCHAR2(20), CONSTRAINT dept_uk UNIQUE(id));
+```
 
+### 修改添加
+
+```SQL
 # 修改添加 unique 约束 如下两种写法效果一样
 ALTER TABLE DEPT MODIFY(NAME UNIQUE);
+
 ALTER TABLE DEPT MODIFY NAME UNIQUE;
 ```
+
+###　禁用／删除唯一约束
+
+```SQL
+# 禁用
+DISABLE|ENABLE CONSTRAINT constraint_name;
+
+alter table users disable constraint constraint_name
+
+# 删除
+DROP CONSTRAINT constraint_name
+
+alter table users drop constraint constraint_name
+```
+
+## 检查约束
+
+### 创建表时检查约束
+
+```SQL
+create table dept (id number, salary number(8, 2) constraint dept_ck check (salary > 1000));
+```
+
+### 修改表时检查约束
+
+```SQL
+SQL> CREATE TABLE DEPT(ID NUMBER, SALARY NUMBER);
+
+表已创建。
+
+SQL> ALTER TABLE DEPT MODIFY SALARY NUMBER CONSTRAINT DEPT_CK CHECK(SALARY > 999);
+
+表已更改。
+
+SQL> INSERT INTO DEPT VALUES(1, 888);
+INSERT INTO DEPT VALUES(1, 888)
+*
+第 1 行出现错误:
+ORA-02290: 违反检查约束条件 (SYSTEM.DEPT_CK)
+
+
+SQL> INSERT INTO DEPT VALUES(1, 1000);
+
+已创建 1 行。
+```
+
+## 启用/禁用约束
 
