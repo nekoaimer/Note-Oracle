@@ -217,7 +217,7 @@ DROP TABLE TABLE_NAME
 
 ```sql
 RENAME TABLE_NAME to NEWTABLE_NAME 
-
+s
 rename userinfo to users;
 ```
 
